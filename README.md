@@ -1,76 +1,128 @@
-2. Interview Practice Partner
-Build an agent that helps users prepare for job interviews. Your Al agent should:
-. Conduct mock interviews for specific roles (e.g. sales, engineer, retail associate)
-. Ask follow-up questions like a real interviewer would
-. Provide post-interview feedback on responses and identify areas for improvement
-(communication, technical knowledge, etc.)
-. Interaction Mode: Voice preferred, chat acceptable
+Interview Practice Partner
+
+Interview Practice Partner is an AI-powered agent designed to help users prepare for job interviews. Its primary motivation is to serve individuals like the developer, who understand the challenges of interview preparation firsthand. This tool enables users to practice mock interviews, receive role-specific questions, and get guided feedback for improvement.
+
+Target Users
+
+Job seekers preparing for interviews
+
+Students or professionals looking to practice mock interviews
+
+Anyone who wants structured, role-specific interview practice
+
+Architecture
+Backend
+
+Framework: FastAPI
+
+API: Google Gemini API (Generative AI)
+
+Files:
+
+app.py – Main FastAPI backend with endpoints /start and /next
+
+.env – Stores API keys (e.g., GEMINI_API_KEY)
+
+config.py – Configuration file for constants and settings
+
+requirements.txt – Dependencies
+
+Logic:
+
+/start endpoint provides the first question based on the selected role.
+
+/next endpoint evaluates user answers using Gemini API and generates the next relevant question.
+
+No database – conversation history is maintained client-side and sent with each request.
+
+Frontend
+
+Files:
+
+index.html – Main interface
+
+style.css – Styling for a clean and responsive UI
+
+app.js – Handles user interactions, API calls, and displays questions/answers
+
+Interaction: Frontend communicates with the FastAPI backend via POST requests.
+
+Directory Structure
+InterviewPracticePartner/
+│
+├─ backend/
+│  ├─ app.py
+│  ├─ config.py
+│  ├─ .env
+│  └─ requirements.txt
+│
+├─ frontend/
+│  ├─ index.html
+│  ├─ style.css
+│  └─ app.js
+│
+├─ README.md
+└─ .gitignore
+
+Design Decisions
+
+FastAPI: Chosen for its simplicity, speed, and easy integration with frontend JavaScript. Supports async processing and easy testing.
+
+Gemini API: Free, accessible, and provides accurate, context-aware responses for role-specific interview guidance.
+
+No database: Keeps the project lightweight; conversation history is handled on the frontend and passed to backend as needed.
+
+Role-based questions: Ensures mock interviews are realistic and tailored to the user's field.
+
+Setup Instructions
+
+Clone the repository
+
+git clone <repository-url>
+cd InterviewPracticePartner
 
 
-EVALUATION CRITERIA
-You shall be evaluated on Conversational Quality, Agentic Behaviour, Technical Implementation,
-Intelligence & Adaptability. To build a strong submission, we encourage you to:
-· Prioritize conversation quality over just functionality
-. Document the reasoning behind your design decisions and include it in your README file
-. Test with multiple people and present demo scenarios such as:
-o The Confused User (unsure what they want)
-The Efficient User (wants quick results)
-The Chatty User (frequently goes off topic)
-The Edge Case Users (goes off topic/provides invalid inputs/submits requests beyond
-bot's capabilities)
+Set up backend
 
-Motivation:
-since i have given a lot of interviews, i connect a lot with target audience, i would want to make something i want to use myself, tking a lot of feedback from my friends in similar situations, would help me connect and make somethign thst can truly create a positive impact on the audience using it. 
-
-major concentration areas:
-
-specific role/job 
-follow up
-feedback areas
-
-extra stuff if time: 
-company specific
-resume specific
-behavioral questions
-sample answers
+cd backend
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # macOS/Linux
+pip install -r requirements.txt
 
 
-| Component                               | Choice                                                                           |
-| --------------------------------------- | -------------------------------------------------------------------------------- |
-| Backend                                 | **FastAPI** (better for async + streaming + clean structure)                     |
-| Frontend                                | **HTML + Tailwind + Vanilla JS** (fastest + voice support)                       |
-| Voice Input                             | **Web Speech API** in browser                                                    |
-| Voice Output (optional but recommended) | **SpeechSynthesis API**                                                          |
-| AI Model                                | Gemini API (because you already use it)                                          |
-| Deployment                              | Backend: **Render / HuggingFace Spaces**<br>Frontend: **Netlify / GitHub Pages** |
+Configure environment
+
+Create a .env file in backend/:
+
+GEMINI_API_KEY=your_gemini_api_key_here
 
 
+Run the backend
 
-**sample evaluation metrics
-
-| Category       | Score Type          |
-| -------------- | ------------------- |
-| Communication  | 1–10                |
-| Content depth  | 1–10                |
-| Clarity        | 1–10                |
-| Examples       | yes/no              |
-| Confidence     | low / medium / high |
-| Recommendation | final verdict       |
+uvicorn app:app --reload
 
 
+Backend will be available at http://127.0.0.1:8000
 
+Open the frontend
 
+Open frontend/index.html in a browser. Ensure the frontend sends requests to the correct backend URL.
 
-to do:
-frontend
-backend
-voice frontend
-AI behavioural rules 
-deployement
+Usage
 
+Select a role and click Start Interview → /start returns the first question.
 
+Submit your answer → /next evaluates it and returns the next question.
 
+Keep answering questions to simulate a full mock interview.
 
-just have a conversation and the user can change it before submittign or somwthing, have a buttin that is you know glowing and all insteam of having a input output frontend
-feedback (major thing) (sample answers)
-have a category for behavioral questions and the technical, if technical select the role
+Future Improvements
+
+Add user authentication and persistent history storage.
+
+Improve frontend UI for better UX.
+
+Extend to multiple roles and industries.
+
+Deploy on a web server for online accessibility.
