@@ -1,4 +1,3 @@
-// --- GLOBAL ELEMENT DECLARATIONS ---
 const startBtn = document.getElementById("startBtn");
 const chatBox = document.getElementById("chatBox");
 const micBtn = document.getElementById("micBtn");
@@ -12,7 +11,6 @@ const feedbackContent = document.getElementById("feedbackContent");
 const setupArea = document.getElementById("setupArea");
 const restartBtn = document.getElementById("restartBtn");
 
-// --- STATE AND CONFIGURATION ---
 const BACKEND_URL = 'http://127.0.0.1:8000';
 let recognition;
 let listening = false;
@@ -24,7 +22,6 @@ let finalTranscript = '';
 let silenceTimer = null;
 const SILENCE_THRESHOLD = 4000;
 
-// --- CORE HELPER FUNCTIONS ---
 function speak(text) {
     if ('speechSynthesis' in window) {
         const speech = new SpeechSynthesisUtterance(text);
@@ -69,7 +66,6 @@ async function apiCall(endpoint, data) {
     }
 }
 
-// --- MIC CONTROL HELPERS ---
 function stopListening() {
     if (listening && recognition) {
         recognition.stop();
@@ -94,7 +90,6 @@ function startListening() {
     }
 }
 
-// --- AUTO-SUBMIT LOGIC ---
 function submitAnswer() {
     if (answerInput.disabled) { stopListening(); return; }
     stopListening();
@@ -102,7 +97,6 @@ function submitAnswer() {
     else startListening();
 }
 
-// --- 1. START INTERVIEW BUTTON ---
 startBtn.onclick = async () => {
     currentRole = roleSelect.value;
     conversationHistory = [];
@@ -138,7 +132,6 @@ startBtn.onclick = async () => {
     }
 };
 
-// --- 2. MIC BUTTON LOGIC ---
 micBtn.onclick = () => {
     if (interviewCompleted) return;
     if (!("webkitSpeechRecognition" in window)) { alert("Voice recognition not supported."); return; }
@@ -175,7 +168,6 @@ micBtn.onclick = () => {
     else stopListening();
 };
 
-// --- 3. SEND BUTTON LOGIC ---
 sendBtn.onclick = () => {
     if (answerInput.disabled) return;
     const text = answerInput.value.trim();
@@ -184,7 +176,6 @@ sendBtn.onclick = () => {
     sendUserAnswer(text);
 };
 
-// --- 4. SEND ANSWER + LIVE FEEDBACK ---
 async function sendUserAnswer(text) {
     if (interviewCompleted) return;
 
@@ -218,7 +209,6 @@ async function sendUserAnswer(text) {
     const status = result.status || "QNA";
     const liveFeedback = feedbackResponse?.feedback_report || "⚠️ No feedback received.";
 
-    // Update chat & live feedback
     addMessage(nextQuestion, "system");
     conversationHistory.push(`Interviewer: ${nextQuestion}`);
     feedbackContent.innerHTML = `<h3>📌 Live Feedback</h3><pre>${liveFeedback}</pre>`;
@@ -237,7 +227,6 @@ async function sendUserAnswer(text) {
         return;
     }
 
-    // If interview completed
     interviewCompleted = true;
     stopListening();
     sendBtn.disabled = true;
@@ -247,7 +236,6 @@ async function sendUserAnswer(text) {
     speak("Your final interview feedback report is ready.");
 }
 
-// --- 5. RESTART BUTTON LOGIC ---
 restartBtn.onclick = () => {
     interviewCompleted = false;
     if (listening) stopListening();

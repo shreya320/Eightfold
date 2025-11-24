@@ -7,17 +7,13 @@ import os
 
 load_dotenv()
 
-# --- Gemini Configuration ---
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
-    # IMPORTANT: Ensure your .env file is in the same directory and contains GEMINI_API_KEY="YOUR_KEY"
     raise ValueError("GEMINI_API_KEY not found in environment variables.")
 genai.configure(api_key=GEMINI_API_KEY)
-# --------------------------
 
 app = FastAPI()
 
-# --- CORS Configuration ---
 origins = [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
@@ -31,9 +27,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# --------------------------
 
-# --- Pydantic Models ---
 class InterviewRequest(BaseModel):
     role: str
 
@@ -45,11 +39,8 @@ class ResponseRequest(BaseModel):
 class FeedbackRequest(BaseModel):
     role: str
     history: list[str]
-# --------------------------
 
-# --- Interview Logic ---
 
-# Use a global, synchronous model instance for synchronous calls
 gemini_model = genai.GenerativeModel("gemini-2.5-flash")
 
 @app.post("/start")
@@ -59,7 +50,6 @@ def start_interview(req: InterviewRequest):
     initial_prompt = f"You are a professional interviewer for a {role} role. Start the interview with a welcoming, standard first question. Return ONLY the question."
 
     try:
-        # Use synchronous call
         response = gemini_model.generate_content(initial_prompt)
         question = response.text.strip()
     except Exception as e:
@@ -72,14 +62,9 @@ def start_interview(req: InterviewRequest):
 @app.post("/next")
 def process_answer(req: ResponseRequest):
     """Processes the user's answer and generates the next question or ends the interview."""
-    # Reduced MAX_TURNS for quick testing/demo purposes
     MAX_TURNS = 2
     
-    # Check if we have completed MAX_TURNS * 2 entries (Interviewer and Candidate response per turn)
-    # The current user_answer is not yet in history, so we count history length + 1 (for current user_answer)
-    # The interview ends AFTER the interviewer delivers the final question/message (which will be at history length 2*MAX_TURNS)
     if len(req.history) >= MAX_TURNS * 2:
-        # End the interview
         return {"question": "Thank you for your time. I will now compile your feedback.", "status": "COMPLETED"}
 
     role = req.role
@@ -98,7 +83,6 @@ def process_answer(req: ResponseRequest):
     """
 
     try:
-        # CORRECTED: Use synchronous call for the standard endpoint handler
         response = gemini_model.generate_content(prompt)
         response_text = response.text.strip()
     except Exception as e:
@@ -134,8 +118,6 @@ async def get_feedback(req: FeedbackRequest):
     """
 
     try:
-        # Using async model call here is fine, but synchronous works too.
-        # We keep the async function definition for better I/O handling.
         model = genai.GenerativeModel("gemini-2.5-flash")
         response = await model.generate_content_async(feedback_prompt)
         feedback = response.text.strip()
