@@ -36,18 +36,20 @@
 - **Interaction:** Frontend communicates with the FastAPI backend via POST requests.
 
 ### Directory Structure
+```
 Eightfold/
 ├─ backend/
-│ ├─ app.py
-│ ├─ config.py
-│ ├─ .env
-│ └─ requirements.txt
+│  ├─ app.py
+│  ├─ config.py
+│  ├─ .env
+│  └─ requirements.txt
 ├─ frontend/
-│ ├─ index.html
-│ ├─ style.css
-│ └─ app.js
+│  ├─ index.html
+│  ├─ style.css
+│  └─ app.js
 ├─ README.md
 └─ .gitignore
+```
 
 
 ## Design Decisions
