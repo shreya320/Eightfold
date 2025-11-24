@@ -68,3 +68,9 @@ voice frontend
 AI behavioural rules 
 deployement
 
+
+
+
+just have a conversation and the user can change it before submittign or somwthing, have a buttin that is you know glowing and all insteam of having a input output frontend
+feedback (major thing) (sample answers)
+have a category for behavioral questions and the technical, if technical select the role

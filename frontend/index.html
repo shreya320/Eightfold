@@ -1,47 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Interview Practice Partner</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
-    </head>
+</head>
+
 <body>
 
-<div class="container">
-    <header>
-        <h1>Interview Partner 🤖</h1>
-        <p class="status-message" id="statusMessage">Choose a role and click 'Start' to begin.</p>
-    </header>
+    <div class="container">
+        <header>
+            <h1>Interview Partner 🤖</h1>
+            <p class="status-message" id="statusMessage">Choose a role and click 'Start' to begin.</p>
+        </header>
 
-    <div class="setup-area" id="setupArea">
-        <label for="roleSelect">🎯 Select Interview Role:</label>
-        <select id="roleSelect">
-            <option value="software_engineer">Software Engineer</option>
-            <option value="data_analyst">Data Analyst</option>
-            <option value="sales">Sales Associate</option>
-            <option value="retail">Retail Associate</option>
-        </select>
-        <button id="startBtn">▶️ Start Mock Interview</button>
-    </div>
-
-    <div id="chatBox" class="chat-box hidden">
+        <div class="setup-area" id="setupArea">
+            <label for="roleSelect">🎯 Select Interview Role:</label>
+            <select id="roleSelect">
+                <option value="software_engineer">Software Engineer</option>
+                <option value="data_analyst">Data Analyst</option>
+                <option value="sales">Sales Associate</option>
+                <option value="retail">Retail Associate</option>
+                <option value="product_manager">Product Manager</option>
+                <option value="devops_engineer">DevOps Engineer</option>
+                <option value="ux_designer">UX Designer</option>
+                <option value="marketing_specialist">Marketing Specialist</option>
+            </select>
+            <button id="startBtn">▶️ Start Mock Interview</button>
         </div>
-
-    <div class="input-area hidden">
-        <textarea id="answerInput" placeholder="Type your response or click the mic to speak..."></textarea>
         
-        <div class="mic-controls">
-            <button id="micBtn" title="Start Speaking">🎤</button>
-            <div id="micStatus" class="mic-status-indicator"></div> 
+
+        <div id="chatBox" class="chat-box hidden">
         </div>
 
-        <button id="sendBtn" title="Send Answer">Send</button>
-    </div>
-</div>
+        <div class="input-area hidden">
+            <textarea id="answerInput" placeholder="Type your response or click the mic to speak..."></textarea>
 
-<script src="app.js"></script>
+            <div class="mic-controls">
+                <button id="micBtn" title="Start Speaking">🎤</button>
+                <div id="micStatus" class="mic-status-indicator"></div>
+            </div>
+
+            <button id="sendBtn" title="Send Answer">Send</button>
+        </div>
+
+    </div>
+
+    <div id="feedbackContainer">
+        <h2>🎯 Interview Analysis & Next Steps</h2>
+        <div id="feedbackContent" class="feedback-content">
+        </div>
+        <button id="restartBtn">Start New Interview</button>
+    </div>
+
+    <script src="app.js"></script>
 
 </body>
+
 </html>
